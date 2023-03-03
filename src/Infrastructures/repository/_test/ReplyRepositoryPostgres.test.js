@@ -156,4 +156,31 @@ describe('ReplyRepositoryPostgres', () => {
       expect(reply[0].is_deleted).toEqual(true);
     });
   });
+
+  describe('getReply function', () => {
+    it('should get comment from database', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({});
+      await ThreadTableTestHelper.addThread({});
+      await CommentTableTestHelper.addComment({});
+      await ReplyTestHelper.addReply({});
+
+      const expectedPayload = {
+        id: 'reply-123',
+        username: 'dicoding',
+        content: 'content',
+      };
+
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+      const threadId = 'thread-123';
+
+      // Action
+      const replies = await replyRepositoryPostgres.getReply(threadId);
+
+      // Assert
+      expect(replies[0].id).toEqual(expectedPayload.id);
+      expect(replies[0].username).toEqual(expectedPayload.username);
+      expect(replies[0].content).toEqual(expectedPayload.content);
+    });
+  });
 });

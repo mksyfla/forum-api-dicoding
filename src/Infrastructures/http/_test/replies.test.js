@@ -45,7 +45,7 @@ describe('/threads/{threadId}/comments/{commentId}/replies/', () => {
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(201);
       expect(responseJson.status).toEqual('success');
-      expect(responseJson.data.addedComment).toBeDefined();
+      expect(responseJson.data.addedReply).toBeDefined();
     });
 
     it('should response 400 when request payload not contain needed property', async () => {

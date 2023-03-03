@@ -19,6 +19,7 @@ describe('a GetComment entities', () => {
       date: 24,
       content: 'content',
       is_deleted: 'false',
+      replies: [],
     };
 
     // Action and Assert
@@ -33,6 +34,7 @@ describe('a GetComment entities', () => {
       date: 'date',
       content: '**komentar telah dihapus**',
       is_deleted: true,
+      replies: [],
     };
 
     // Action
@@ -54,6 +56,7 @@ describe('a GetComment entities', () => {
       date: 'date',
       content: 'content',
       is_deleted: false,
+      replies: [],
     };
 
     // Action

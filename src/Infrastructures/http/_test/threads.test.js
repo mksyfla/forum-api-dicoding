@@ -5,6 +5,7 @@ const createServer = require('../createServer');
 const container = require('../../container');
 const CommentTableTestHelper = require('../../../../tests/CommentTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
+const ReplyTestHelper = require('../../../../tests/ReplyTestHelper');
 
 describe('/threads endpoint', () => {
   afterEach(async () => {
@@ -153,6 +154,7 @@ describe('/threads endpoint', () => {
       await UsersTableTestHelper.addUser({});
       const threadId = await ThreadTableTestHelper.addThread({});
       await CommentTableTestHelper.addComment({});
+      await ReplyTestHelper.addReply({});
       const server = await createServer(container);
 
       await CommentTableTestHelper.addComment({

@@ -1,17 +1,21 @@
 class ReplyRepository {
-  async addReply(registerComment) {
+  async addReply(registerReply) {
     throw new Error('REPLY_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async verifyAvailableReply(comment) {
+  async verifyAvailableReply(reply) {
     throw new Error('REPLY_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async verifyOwnerReply(comment, owner) {
+  async verifyOwnerReply(reply, owner) {
     throw new Error('REPLY_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async deleteReply(registerComment) {
+  async deleteReply(registerReply) {
+    throw new Error('REPLY_REPOSITORY.METHOD_NOT_IMPLEMENTED');
+  }
+
+  async getReply(registeredReply) {
     throw new Error('REPLY_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 }
