@@ -16,7 +16,7 @@ describe('AddReplyUseCase', () => {
     };
 
     const expectedRegisteredReply = new RegisteredReply({
-      id: 'comment-123',
+      id: 'reply-123',
       content: useCasePayload.content,
       owner: useCasePayload.owner,
     });
@@ -30,7 +30,11 @@ describe('AddReplyUseCase', () => {
     mockCommentRepository.verifyAvailableComment = jest.fn()
       .mockImplementation(() => Promise.resolve());
     mockReplyRepository.addReply = jest.fn()
-      .mockImplementation(() => Promise.resolve(expectedRegisteredReply));
+      .mockImplementation(() => Promise.resolve(new RegisteredReply({
+        id: 'reply-123',
+        content: useCasePayload.content,
+        owner: useCasePayload.owner,
+      })));
 
     const addReplyUseCase = new AddReplyUseCase({
       replyRepository: mockReplyRepository,
@@ -43,6 +47,8 @@ describe('AddReplyUseCase', () => {
 
     // Assert
     expect(registeredReply).toStrictEqual(expectedRegisteredReply);
+    expect(mockThreadRepository.verifyAvailableThread).toBeCalledWith(useCasePayload.threadId);
+    expect(mockCommentRepository.verifyAvailableComment).toBeCalledWith(useCasePayload.commentId);
     expect(mockReplyRepository.addReply).toBeCalledWith(new RegisterReply({
       content: useCasePayload.content,
       owner: useCasePayload.owner,

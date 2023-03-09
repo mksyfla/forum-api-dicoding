@@ -75,19 +75,33 @@ describe('ThreadRepositoryPostgres', () => {
       await expect(threadRepositoryPostgres.verifyAvailableThread(thread))
         .rejects.toThrow(NotFoundError);
     });
+
+    it('should not throw NotFoundError when thread id available', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({});
+      await ThreadTableTestHelper.addThread({});
+
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+      const thread = 'thread-123';
+
+      // Action and Assert
+      await expect(threadRepositoryPostgres.verifyAvailableThread(thread))
+        .resolves.not.toThrow(NotFoundError);
+    });
   });
 
   describe('getThread function', () => {
     it('should get thread from database', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({});
-      await ThreadTableTestHelper.addThread({});
+      await ThreadTableTestHelper.addThread({ date: 'date' });
 
       const expectedPayload = {
         id: 'thread-123',
         title: 'title',
         body: 'body',
         username: 'dicoding',
+        date: 'date',
       };
 
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
@@ -101,6 +115,7 @@ describe('ThreadRepositoryPostgres', () => {
       expect(thread.title).toEqual(expectedPayload.title);
       expect(thread.body).toEqual(expectedPayload.body);
       expect(thread.username).toEqual(expectedPayload.username);
+      expect(thread.date).toEqual(expectedPayload.date);
     });
   });
 });

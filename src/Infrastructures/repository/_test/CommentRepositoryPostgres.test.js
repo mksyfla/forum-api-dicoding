@@ -152,12 +152,14 @@ describe('CommentRepositoryPostgres', () => {
       // Arrange
       await UsersTableTestHelper.addUser({});
       await ThreadTableTestHelper.addThread({});
-      await CommentTableTestHelper.addComment({});
+      await CommentTableTestHelper.addComment({ date: 'date' });
 
       const expectedPayload = {
         id: 'comment-123',
         username: 'dicoding',
         content: 'content',
+        date: 'date',
+        is_deleted: false,
       };
 
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
@@ -170,6 +172,8 @@ describe('CommentRepositoryPostgres', () => {
       expect(comments[0].id).toEqual(expectedPayload.id);
       expect(comments[0].username).toEqual(expectedPayload.username);
       expect(comments[0].content).toEqual(expectedPayload.content);
+      expect(comments[0].date).toEqual(expectedPayload.date);
+      expect(comments[0].is_deleted).toEqual(expectedPayload.is_deleted);
     });
   });
 });

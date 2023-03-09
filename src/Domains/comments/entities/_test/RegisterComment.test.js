@@ -38,5 +38,6 @@ describe('a RegisterComment entities', () => {
     expect(registerComment).toBeInstanceOf(RegisterComment);
     expect(registerComment.content).toEqual(payload.content);
     expect(registerComment.owner).toEqual(payload.owner);
+    expect(registerComment.threadId).toEqual(payload.threadId);
   });
 });

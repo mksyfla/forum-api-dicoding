@@ -20,13 +20,13 @@
     "@hapi/jwt": "^2.0.1",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "eslint": "^8.35.0",
     "instances-container": "^2.0.3",
     "nanoid": "^3.1.23",
     "pg": "^8.6.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
-    "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
     "jest": "^27.0.6",

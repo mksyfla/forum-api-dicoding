@@ -31,7 +31,7 @@ describe('a GetReply entities', () => {
       id: 'comment-123',
       username: 'username',
       date: 'date',
-      content: '**balasan telah dihapus**',
+      content: 'content',
       is_deleted: true,
     };
 
@@ -43,7 +43,7 @@ describe('a GetReply entities', () => {
     expect(getReply.id).toEqual(payload.id);
     expect(getReply.username).toEqual(payload.username);
     expect(getReply.date).toEqual(payload.date);
-    expect(getReply.content).toEqual(payload.content);
+    expect(getReply.content).toEqual('**balasan telah dihapus**');
   });
 
   it('should create GetReply correctly', () => {

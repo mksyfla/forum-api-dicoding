@@ -40,7 +40,20 @@ describe('GetThreadUseCase', () => {
               date: 'date',
               content: 'content',
             },
+            {
+              id: 'reply-246',
+              username: 'username',
+              date: 'date',
+              content: '**balasan telah dihapus**',
+            },
           ],
+        },
+        {
+          id: 'comment-246',
+          username: 'username',
+          date: 'date',
+          content: '**komentar telah dihapus**',
+          replies: [],
         },
       ],
     };
@@ -68,6 +81,13 @@ describe('GetThreadUseCase', () => {
           content: 'content',
           is_deleted: false,
         },
+        {
+          id: 'comment-246',
+          username: 'username',
+          date: 'date',
+          content: 'content',
+          is_deleted: true,
+        },
       ]));
     mockReplyRepository.getReply = jest.fn()
       .mockImplementation(() => Promise.resolve([
@@ -78,6 +98,14 @@ describe('GetThreadUseCase', () => {
           content: 'content',
           comment_id: 'comment-123',
           is_deleted: false,
+        },
+        {
+          id: 'reply-246',
+          username: 'username',
+          date: 'date',
+          content: 'content',
+          comment_id: 'comment-123',
+          is_deleted: true,
         },
       ]));
 

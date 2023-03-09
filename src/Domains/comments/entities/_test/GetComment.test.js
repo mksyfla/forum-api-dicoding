@@ -19,7 +19,6 @@ describe('a GetComment entities', () => {
       date: 24,
       content: 'content',
       is_deleted: 'false',
-      replies: [],
     };
 
     // Action and Assert
@@ -32,9 +31,8 @@ describe('a GetComment entities', () => {
       id: 'comment-123',
       username: 'username',
       date: 'date',
-      content: '**komentar telah dihapus**',
+      content: 'test',
       is_deleted: true,
-      replies: [],
     };
 
     // Action
@@ -45,7 +43,7 @@ describe('a GetComment entities', () => {
     expect(getComment.id).toEqual(payload.id);
     expect(getComment.username).toEqual(payload.username);
     expect(getComment.date).toEqual(payload.date);
-    expect(getComment.content).toEqual(payload.content);
+    expect(getComment.content).toEqual('**komentar telah dihapus**');
   });
 
   it('should create GetComment correctly', () => {
@@ -56,7 +54,6 @@ describe('a GetComment entities', () => {
       date: 'date',
       content: 'content',
       is_deleted: false,
-      replies: [],
     };
 
     // Action

@@ -163,12 +163,15 @@ describe('ReplyRepositoryPostgres', () => {
       await UsersTableTestHelper.addUser({});
       await ThreadTableTestHelper.addThread({});
       await CommentTableTestHelper.addComment({});
-      await ReplyTestHelper.addReply({});
+      await ReplyTestHelper.addReply({ date: 'date' });
 
       const expectedPayload = {
         id: 'reply-123',
         username: 'dicoding',
         content: 'content',
+        date: 'date',
+        comment_id: 'comment-123',
+        is_deleted: false,
       };
 
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
@@ -181,6 +184,9 @@ describe('ReplyRepositoryPostgres', () => {
       expect(replies[0].id).toEqual(expectedPayload.id);
       expect(replies[0].username).toEqual(expectedPayload.username);
       expect(replies[0].content).toEqual(expectedPayload.content);
+      expect(replies[0].date).toEqual(expectedPayload.date);
+      expect(replies[0].comment_id).toEqual(expectedPayload.comment_id);
+      expect(replies[0].is_deleted).toEqual(expectedPayload.is_deleted);
     });
   });
 });

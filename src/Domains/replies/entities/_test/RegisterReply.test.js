@@ -40,5 +40,7 @@ describe('a registerReply entities', () => {
     expect(registerReply).toBeInstanceOf(RegisterReply);
     expect(registerReply.content).toEqual(payload.content);
     expect(registerReply.owner).toEqual(payload.owner);
+    expect(registerReply.threadId).toEqual(payload.threadId);
+    expect(registerReply.commentId).toEqual(payload.commentId);
   });
 });
