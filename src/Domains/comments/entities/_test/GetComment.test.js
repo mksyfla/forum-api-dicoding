@@ -21,8 +21,10 @@ describe('a GetComment entities', () => {
       is_deleted: 'false',
     };
 
+    const replies = {};
+
     // Action and Assert
-    expect(() => new GetComment(payload)).toThrowError('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new GetComment(payload, replies)).toThrowError('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
   it('should create GetComment with is_deleted true correctly', () => {
@@ -33,10 +35,13 @@ describe('a GetComment entities', () => {
       date: 'date',
       content: 'test',
       is_deleted: true,
+      replies: [],
     };
 
+    const replies = [];
+
     // Action
-    const getComment = new GetComment(payload);
+    const getComment = new GetComment(payload, replies);
 
     // Assert
     expect(getComment).toBeInstanceOf(GetComment);
@@ -44,6 +49,7 @@ describe('a GetComment entities', () => {
     expect(getComment.username).toEqual(payload.username);
     expect(getComment.date).toEqual(payload.date);
     expect(getComment.content).toEqual('**komentar telah dihapus**');
+    expect(getComment.replies).toEqual(replies);
   });
 
   it('should create GetComment correctly', () => {
@@ -56,8 +62,10 @@ describe('a GetComment entities', () => {
       is_deleted: false,
     };
 
+    const replies = [];
+
     // Action
-    const getComment = new GetComment(payload);
+    const getComment = new GetComment(payload, replies);
 
     // Assert
     expect(getComment).toBeInstanceOf(GetComment);
@@ -65,5 +73,6 @@ describe('a GetComment entities', () => {
     expect(getComment.username).toEqual(payload.username);
     expect(getComment.date).toEqual(payload.date);
     expect(getComment.content).toEqual(payload.content);
+    expect(getComment.replies).toEqual(replies);
   });
 });

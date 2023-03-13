@@ -20,12 +20,14 @@ class GetThreadUseCase {
     const map = {
       ...thread,
       comments: comments.map((comment) => ({
-        ...new GetComment(comment),
-        replies: replies
-          .filter((reply) => reply.comment_id === comment.id)
-          .map((reply) => ({
-            ...new GetReply(reply),
-          })),
+        ...new GetComment(
+          comment,
+          replies
+            .filter((reply) => reply.comment_id === comment.id)
+            .map((reply) => ({
+              ...new GetReply(reply),
+            })),
+        ),
       })),
     };
 
