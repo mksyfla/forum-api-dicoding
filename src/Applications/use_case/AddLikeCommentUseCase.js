@@ -11,7 +11,19 @@ class AddLikeCommentUseCase {
     const registerLike = new RegisterLike(useCasePayload);
     await this._threadRepository.verifyAvailableThread(useCasePayload.threadId);
     await this._commentRepository.verifyAvailableComment(useCasePayload.commentId);
-    return this._commentLikeRepository.likeComment(registerLike);
+    const isLiked = await this._commentLikeRepository.verifyOwnerLike(
+      useCasePayload.userId,
+      useCasePayload.commentId,
+    );
+
+    if (!isLiked) {
+      return this._commentLikeRepository.likeComment(registerLike);
+    }
+
+    return this._commentLikeRepository.deleteLikeComment(
+      useCasePayload.userId,
+      useCasePayload.commentId,
+    );
   }
 }
 
