@@ -2,10 +2,16 @@ const GetComment = require('../../Domains/comments/entities/GetComment');
 const GetReply = require('../../Domains/replies/entities/GetReply');
 
 class GetThreadUseCase {
-  constructor({ threadRepository, commentRepository, replyRepository }) {
+  constructor({
+    threadRepository,
+    commentRepository,
+    replyRepository,
+    commentLikeRepository,
+  }) {
     this._threadRepository = threadRepository;
     this._commentRepository = commentRepository;
     this._replyRepository = replyRepository;
+    this._commentLikeRepository = commentLikeRepository;
   }
 
   async execute(useCasePayload) {
@@ -15,6 +21,7 @@ class GetThreadUseCase {
     await this._threadRepository.verifyAvailableThread(threadId);
     const thread = await this._threadRepository.getThread(threadId);
     const comments = await this._commentRepository.getComment(threadId);
+    const likeCount = await this._commentLikeRepository.getLikeComment(threadId);
     const replies = await this._replyRepository.getReply(threadId);
 
     const map = {
@@ -22,6 +29,8 @@ class GetThreadUseCase {
       comments: comments.map((comment) => ({
         ...new GetComment(
           comment,
+          likeCount
+            .filter((like) => like.comment_id === comment.id).length,
           replies
             .filter((reply) => reply.comment_id === comment.id)
             .map((reply) => ({

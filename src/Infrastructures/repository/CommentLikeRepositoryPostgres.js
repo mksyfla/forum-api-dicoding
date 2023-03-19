@@ -40,14 +40,17 @@ class CommentLikeRepositoryPostgres extends CommentLikeRepository {
     return result.rowCount;
   }
 
-  async getLikeComment(commentId) {
+  async getLikeComment(threadId) {
     const query = {
-      text: 'SELECT * FROM likes_comment WHERE comment_id = $1',
-      values: [commentId],
+      text: `SELECT likes_comment.id, likes_comment.user_id, comments.id as comment_id
+      FROM likes_comment
+      INNER JOIN comments ON comments.id = likes_comment.comment_id
+      WHERE comments.thread_id = $1`,
+      values: [threadId],
     };
 
     const result = await this._pool.query(query);
-    return result.rowCount;
+    return result.rows;
   }
 
   async deleteLikeComment(userId, commentId) {

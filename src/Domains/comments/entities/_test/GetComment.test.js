@@ -21,10 +21,12 @@ describe('a GetComment entities', () => {
       is_deleted: 'false',
     };
 
+    const likeCount = 1;
+
     const replies = {};
 
     // Action and Assert
-    expect(() => new GetComment(payload, replies)).toThrowError('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new GetComment(payload, likeCount, replies)).toThrowError('GET_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
   it('should create GetComment with is_deleted true correctly', () => {
@@ -35,13 +37,14 @@ describe('a GetComment entities', () => {
       date: 'date',
       content: 'test',
       is_deleted: true,
-      replies: [],
     };
+
+    const likeCount = 1;
 
     const replies = [];
 
     // Action
-    const getComment = new GetComment(payload, replies);
+    const getComment = new GetComment(payload, likeCount, replies);
 
     // Assert
     expect(getComment).toBeInstanceOf(GetComment);
@@ -49,6 +52,7 @@ describe('a GetComment entities', () => {
     expect(getComment.username).toEqual(payload.username);
     expect(getComment.date).toEqual(payload.date);
     expect(getComment.content).toEqual('**komentar telah dihapus**');
+    expect(getComment.likeCount).toEqual(likeCount);
     expect(getComment.replies).toEqual(replies);
   });
 
@@ -62,10 +66,12 @@ describe('a GetComment entities', () => {
       is_deleted: false,
     };
 
+    const likeCount = 1;
+
     const replies = [];
 
     // Action
-    const getComment = new GetComment(payload, replies);
+    const getComment = new GetComment(payload, likeCount, replies);
 
     // Assert
     expect(getComment).toBeInstanceOf(GetComment);
@@ -73,6 +79,7 @@ describe('a GetComment entities', () => {
     expect(getComment.username).toEqual(payload.username);
     expect(getComment.date).toEqual(payload.date);
     expect(getComment.content).toEqual(payload.content);
+    expect(getComment.likeCount).toEqual(likeCount);
     expect(getComment.replies).toEqual(replies);
   });
 });

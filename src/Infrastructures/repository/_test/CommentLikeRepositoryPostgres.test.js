@@ -105,16 +105,24 @@ describe('CommentLikeRepositoryPostgres', () => {
       await CommentTableTestHelper.addComment({});
       await CommentLikeTableTestHelper.likeComment({});
 
+      const expectedPayload = {
+        id: 'like-123',
+        userId: 'user-123',
+        commentId: 'comment-123',
+      };
+
       const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(
         pool,
         {},
       );
 
       // Action
-      const likes = await commentLikeRepositoryPostgres.getLikeComment('comment-123');
+      const likes = await commentLikeRepositoryPostgres.getLikeComment('thread-123');
 
       // Assert
-      expect(likes).toEqual(1);
+      expect(likes[0].id).toEqual(expectedPayload.id);
+      expect(likes[0].user_id).toEqual(expectedPayload.userId);
+      expect(likes[0].comment_id).toEqual(expectedPayload.commentId);
     });
   });
 
