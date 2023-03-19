@@ -3,6 +3,7 @@ const ServerTestHelper = require('../../../../tests/ServerTestHelper');
 const pool = require('../../database/postgres/pool');
 const createServer = require('../createServer');
 const container = require('../../container');
+const CommentLikeTableTestHelper = require('../../../../tests/CommentLikeTableTestHelper');
 const CommentTableTestHelper = require('../../../../tests/CommentTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ReplyTestHelper = require('../../../../tests/ReplyTestHelper');
@@ -154,6 +155,7 @@ describe('/threads endpoint', () => {
       await UsersTableTestHelper.addUser({});
       const threadId = await ThreadTableTestHelper.addThread({});
       await CommentTableTestHelper.addComment({});
+      await CommentLikeTableTestHelper.likeComment({});
       await ReplyTestHelper.addReply({});
       const server = await createServer(container);
 

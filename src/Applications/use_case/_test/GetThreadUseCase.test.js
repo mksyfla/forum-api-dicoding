@@ -1,3 +1,4 @@
+const CommentLikeRepository = require('../../../Domains/commentLikes/CommentLikeRepository');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const ReplyRepository = require('../../../Domains/replies/ReplyRepository');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
@@ -33,6 +34,7 @@ describe('GetThreadUseCase', () => {
           username: 'username',
           date: 'date',
           content: 'content',
+          likeCount: 1,
           replies: [
             {
               id: 'reply-123',
@@ -53,6 +55,7 @@ describe('GetThreadUseCase', () => {
           username: 'username',
           date: 'date',
           content: '**komentar telah dihapus**',
+          likeCount: 0,
           replies: [],
         },
       ],
@@ -61,6 +64,7 @@ describe('GetThreadUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
+    const mockCommentLikeRepository = new CommentLikeRepository();
 
     mockThreadRepository.verifyAvailableThread = jest.fn()
       .mockImplementation(() => Promise.resolve());
@@ -89,6 +93,14 @@ describe('GetThreadUseCase', () => {
           is_deleted: true,
         },
       ]));
+    mockCommentLikeRepository.getLikeComment = jest.fn()
+      .mockImplementation(() => Promise.resolve([
+        {
+          id: 'like-123',
+          user_id: 'user-123',
+          comment_id: 'comment-123',
+        },
+      ]));
     mockReplyRepository.getReply = jest.fn()
       .mockImplementation(() => Promise.resolve([
         {
@@ -113,6 +125,7 @@ describe('GetThreadUseCase', () => {
       threadRepository: mockThreadRepository,
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
+      commentLikeRepository: mockCommentLikeRepository,
     });
 
     // Action
@@ -125,6 +138,8 @@ describe('GetThreadUseCase', () => {
     expect(mockThreadRepository.getThread)
       .toBeCalledWith(useCasePayload.threadId);
     expect(mockCommentRepository.getComment)
+      .toBeCalledWith(useCasePayload.threadId);
+    expect(mockCommentLikeRepository.getLikeComment)
       .toBeCalledWith(useCasePayload.threadId);
     expect(mockReplyRepository.getReply)
       .toBeCalledWith(useCasePayload.threadId);
