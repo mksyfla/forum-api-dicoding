@@ -37,9 +37,7 @@ class CommentLikeRepositoryPostgres extends CommentLikeRepository {
 
     const result = await this._pool.query(query);
 
-    if (!result.rowCount) {
-      throw new AuthorizationError('tidak punya hak untuk melakukan ini');
-    }
+    return result.rowCount;
   }
 
   async getLikeComment(commentId) {

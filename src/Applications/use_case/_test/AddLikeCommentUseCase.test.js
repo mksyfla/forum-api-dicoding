@@ -56,6 +56,7 @@ describe('AddLikeCommentUseCase', () => {
     expect(mockCommentLikeRepository.likeComment).toBeCalledWith(new RegisterLike({
       userId: useCasePayload.userId,
       commentId: useCasePayload.commentId,
+      threadId: useCasePayload.threadId,
     }));
   });
 

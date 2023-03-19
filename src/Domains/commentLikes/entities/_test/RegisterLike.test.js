@@ -14,6 +14,7 @@ describe('a registerLike entities', () => {
     const payload = {
       userId: 123,
       commentId: 'comment-123',
+      threadId: 'thread-123',
     };
 
     // Action and Assert
@@ -25,6 +26,7 @@ describe('a registerLike entities', () => {
     const payload = {
       userId: 'user-123',
       commentId: 'comment-123',
+      threadId: 'thread-123',
     };
 
     // Action

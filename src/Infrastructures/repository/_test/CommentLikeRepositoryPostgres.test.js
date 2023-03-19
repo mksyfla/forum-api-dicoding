@@ -30,6 +30,7 @@ describe('CommentLikeRepositoryPostgres', () => {
       const registerLike = new RegisterLike({
         userId: 'user-123',
         commentId: 'comment-123',
+        threadId: 'thread-123',
       });
 
       const fakeIdGenerator = () => '123';
@@ -56,6 +57,7 @@ describe('CommentLikeRepositoryPostgres', () => {
       const registerLike = new RegisterLike({
         userId: 'user-123',
         commentId: 'comment-123',
+        threadId: 'thread-123',
       });
 
       const fakeIdGenerator = () => '123';
@@ -78,22 +80,6 @@ describe('CommentLikeRepositoryPostgres', () => {
   });
 
   describe('verifyOwnerLike function', () => {
-    it('should throw AuthorizationError when user does not have access to comment id', async () => {
-      // Arrange
-      await UsersTableTestHelper.addUser({});
-      await ThreadTableTestHelper.addThread({});
-      await CommentTableTestHelper.addComment({});
-      await CommentLikeTableTestHelper.likeComment({});
-
-      const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, {});
-      const userId = 'user-246';
-      const commentId = 'comment-123';
-
-      // Action and Assert
-      await expect(commentLikeRepositoryPostgres.verifyOwnerLike(userId, commentId))
-        .rejects.toThrow(AuthorizationError);
-    });
-
     it('should not throw AuthorizationError when user have access to comment id', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({});
@@ -102,12 +88,12 @@ describe('CommentLikeRepositoryPostgres', () => {
       await CommentLikeTableTestHelper.likeComment({});
 
       const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, {});
-      const userId = 'user-123';
-      const commentId = 'comment-123';
 
-      // Action and Assert
-      await expect(commentLikeRepositoryPostgres.verifyOwnerLike(userId, commentId))
-        .resolves.not.toThrow(AuthorizationError);
+      // Action
+      const like = await commentLikeRepositoryPostgres.verifyOwnerLike('user-123', 'comment-123');
+
+      // Assert
+      expect(like).toEqual(1);
     });
   });
 
@@ -129,6 +115,28 @@ describe('CommentLikeRepositoryPostgres', () => {
 
       // Assert
       expect(likes).toEqual(1);
+    });
+  });
+
+  describe('deleteLikeComment function', () => {
+    it('should delete like comment from database', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({});
+      await ThreadTableTestHelper.addThread({});
+      await CommentTableTestHelper.addComment({});
+      await CommentLikeTableTestHelper.likeComment({});
+
+      const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(
+        pool,
+        {},
+      );
+
+      // Action
+      await commentLikeRepositoryPostgres.deleteLikeComment('user-123', 'comment-123');
+
+      // Assert
+      const like = await CommentLikeTableTestHelper.findLikeByCommentId('comment-123');
+      expect(like).toEqual(0);
     });
   });
 });
